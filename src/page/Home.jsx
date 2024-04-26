@@ -24,14 +24,14 @@ const Home = () => {
   };
   const dataSource = users?.data?.map((el) => ({
     key: el.ID,
-    id: Number(el.ID),
+    id: el.ID,
     type: el.TYPE,
     name: el.NAME,
     birth: moment(el.BIRTH).format("DD-MM-YYYY"),
     identifire: el.IDENTIFIER,
     address: el.ADDRESS,
     email: el.EMAIL,
-    phone: Number(el.PHONE),
+    phone: el.PHONE,
   }));
   const columns = [
     {
@@ -73,6 +73,7 @@ const Home = () => {
       title: "Phone",
       dataIndex: "phone",
       key: "phone",
+      align: "right",
     },
     {
       title: "Action",

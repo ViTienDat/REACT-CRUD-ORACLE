@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Select } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import path from "../utils/path";
-import { apiCreateUser, apiGetDetailUser } from "../apis/user";
+import { apiGetDetailUser, apiUpdateUser } from "../apis/user";
 import dayjs from "dayjs";
+import moment from "moment";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -24,8 +25,16 @@ const Update = () => {
       setUser(response.data[0]);
     }
   };
-  console.log(user);
-  const handleCreateUser = async (values) => {
+  form.setFieldsValue({
+    type: user?.TYPE,
+    name: user?.NAME,
+    identifier: user?.IDENTIFIER,
+    address: user?.ADDRESS,
+    email: user?.EMAIL,
+    phone: user?.PHONE,
+    date: dayjs(moment(user?.BIRTH).format("DD-MM-YYYY"), dateFormatList[0]),
+  });
+  const handleUpdateUser = async (values) => {
     const date = new Date(values.date);
     const day = date.getDate();
     const month = date.getMonth();
@@ -34,11 +43,12 @@ const Update = () => {
     birth.toString();
     values.birth = birth;
     delete values.date;
-    console.log(values);
-    const response = await apiCreateUser(values);
+    const response = await apiUpdateUser(values, uid);
     if (response.success) {
-      toast.success("Create user is successfully!");
-      form.resetFields();
+      toast.success("Update user is successfully!");
+      setReset((prev) => (prev = !prev));
+    } else {
+      toast.error(response.data);
     }
   };
   return (
@@ -46,7 +56,7 @@ const Update = () => {
       <ToastContainer />
       <Form
         form={form}
-        onFinish={handleCreateUser}
+        onFinish={handleUpdateUser}
         className="m-auto mt-7"
         labelCol={{
           span: 5,
@@ -69,7 +79,7 @@ const Update = () => {
           labelAlign="left"
           rules={[{ required: true, message: "Please select your role!" }]}
         >
-          <Select defaultValue={user?.TYPE}>
+          <Select>
             <Select.Option value="ca nhan">Cá nhân</Select.Option>
             <Select.Option value="to chuc">Tổ chức</Select.Option>
           </Select>
@@ -80,7 +90,7 @@ const Update = () => {
           labelAlign="left"
           rules={[{ required: true, message: "Please enter your name!" }]}
         >
-          <Input defaultValue={user?.NAME} />
+          <Input />
         </Form.Item>
         <Form.Item
           name={"date"}
@@ -88,11 +98,7 @@ const Update = () => {
           labelAlign="left"
           rules={[{ required: true, message: "Please enter your birth!" }]}
         >
-          <DatePicker
-            defaultValue={user?.BIRTH}
-            format={dateFormatList}
-            placeholder="dd-mm-yyyy"
-          />
+          <DatePicker format={dateFormatList} placeholder="dd-mm-yyyy" />
         </Form.Item>
         <Form.Item
           name={"identifier"}
@@ -141,9 +147,9 @@ const Update = () => {
         <Form.Item>
           <div className="flex justify-center gap-3">
             <Button type="primary" htmlType="submit">
-              SUBMIT
+              UPDATE
             </Button>
-            <Button onClick={() => navigate(path.HOME)}>CANCLE</Button>
+            <Button onClick={() => navigate(path.HOME)}>CANCEL</Button>
           </div>
         </Form.Item>
       </Form>

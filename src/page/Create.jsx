@@ -24,6 +24,8 @@ const Create = () => {
     if (response.success) {
       toast.success("Create user is successfully!");
       form.resetFields();
+    } else {
+      toast.error(response.data);
     }
   };
   return (
