@@ -1,6 +1,6 @@
 import { apiGetUser, apiDeleteUser } from "../apis/user";
 import { useEffect, useState } from "react";
-import { Space, Table } from "antd";
+import { Pagination, Space, Table } from "antd";
 import moment from "moment";
 import icons from "../utils/icons";
 import { useNavigate } from "react-router-dom";
@@ -131,7 +131,7 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className="mx-2">
       <div className="m-4 flex justify-end">
         <span
           onClick={() => handleNewUser()}

@@ -75,7 +75,7 @@ const Create = () => {
           labelAlign="left"
           rules={[{ required: true, message: "Please enter your birth!" }]}
         >
-          <DatePicker format={dateFormatList} placeholder="dd-mm-yyyy" />
+          <DatePicker format={dateFormatList} placeholder="dd-mm-yy" />
         </Form.Item>
         <Form.Item
           name={"identifier"}
