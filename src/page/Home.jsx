@@ -38,6 +38,7 @@ const Home = () => {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      align: "right",
     },
     {
       title: "Type",

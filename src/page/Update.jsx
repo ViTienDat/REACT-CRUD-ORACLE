@@ -44,11 +44,11 @@ const Update = () => {
     values.birth = birth;
     delete values.date;
     const response = await apiUpdateUser(values, uid);
-    if (response.success) {
-      toast.success("Update user is successfully!");
+    if (response.success == 0) {
+      toast.success(response.message);
       setReset((prev) => (prev = !prev));
     } else {
-      toast.error(response.data);
+      toast.error(response.message);
     }
   };
   return (

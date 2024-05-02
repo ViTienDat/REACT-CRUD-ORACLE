@@ -19,13 +19,13 @@ const Create = () => {
     birth.toString();
     values.birth = birth;
     delete values.date;
-    console.log(values);
     const response = await apiCreateUser(values);
-    if (response.success) {
-      toast.success("Create user is successfully!");
+    console.log(response);
+    if (response.success == 0) {
+      toast.success(response.message);
       form.resetFields();
     } else {
-      toast.error(response.data);
+      toast.warning(response.message);
     }
   };
   return (
